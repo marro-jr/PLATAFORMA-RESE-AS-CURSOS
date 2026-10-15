@@ -153,6 +153,21 @@ Contraseña para todas las cuentas de prueba: `Password123!`
 - Node.js (v18+) y npm instalados.
 - MySQL 8.0 (opcional para el perfil mysql; por defecto el proyecto incluye perfil h2 listo para ejecución inmediata).
 
+### Configuración de Variables de Entorno
+
+El sistema no utiliza claves ni credenciales sensibles hardcodeadas en el código fuente ni en los archivos de propiedades. Todas las variables se configuran a través del entorno o del archivo `.env`:
+
+1. Copiar la plantilla de configuración:
+   ```bash
+   cp .env.example .env
+   # o en Windows PowerShell:
+   Copy-Item .env.example .env
+   ```
+2. Variables principales configuradas en `.env`:
+   - `JWT_SECRET_BASE64`: Clave Base64 obligatoria para la firma de tokens JWT (mínimo 256 bits).
+   - `DB_USERNAME` y `DB_PASSWORD`: Credenciales de MySQL (sin valores inseguros quemados en el código).
+   - `SPRING_PROFILES_ACTIVE`: Perfil activo (`h2` para entorno autocontenido o `mysql` para servidor relacional).
+
 ### Ejecución del Backend
 
 1. Acceder al directorio `backend`:
