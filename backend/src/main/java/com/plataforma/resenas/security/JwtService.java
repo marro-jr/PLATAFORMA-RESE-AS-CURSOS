@@ -23,7 +23,7 @@ public class JwtService {
     private final long duracionSegundos;
 
     public JwtService(
-            @Value("${app.jwt.secret:dGhpcy1pcy1hLXNhbXBsZS1qd3Qtc2VjcmV0LWtleS1mb3ItZGV2LW9ubHktMjU2LWJpdHM=}") String textoBase64,
+            @Value("${app.jwt.secret}") String textoBase64,
             @Value("${app.jwt.expiration-seconds:86400}") long duracionSegundos) {
 
         byte[] bytes = Decoders.BASE64.decode(textoBase64);
