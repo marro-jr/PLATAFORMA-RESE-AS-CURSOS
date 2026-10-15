@@ -26,7 +26,21 @@ public class JwtService {
             @Value("${app.jwt.secret}") String textoBase64,
             @Value("${app.jwt.expiration-seconds:86400}") long duracionSegundos) {
 
-        byte[] bytes = Decoders.BASE64.decode(textoBase64);
+        if (textoBase64 == null || textoBase64.trim().isEmpty()) {
+            throw new IllegalArgumentException("La clave secreta JWT (app.jwt.secret / JWT_SECRET_BASE64) es obligatoria y no puede ser nula ni vacía.");
+        }
+
+        byte[] bytes;
+        try {
+            bytes = Decoders.BASE64.decode(textoBase64.trim());
+        } catch (Exception excepcion) {
+            throw new IllegalArgumentException("La clave secreta JWT no tiene una codificación Base64 válida.", excepcion);
+        }
+
+        if (bytes.length < 32) {
+            throw new IllegalArgumentException("La clave secreta JWT debe tener una longitud mínima de 256 bits (32 bytes) para garantizar la seguridad con HMAC-SHA256.");
+        }
+
         this.clave = Keys.hmacShaKeyFor(bytes);
         this.duracionSegundos = duracionSegundos;
     }
